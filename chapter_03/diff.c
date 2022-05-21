@@ -152,8 +152,23 @@ diff (FILE  *file,
 int
 main (void)
 {
-  // FILE *out = fopen ("diff.out", "w");
-  diff (stdout, 11, 10, 500, .1e-4, 0.5, 2999);
-  // fclose (out);
+  int    jmax  = 0;
+  int    maxex = 0;
+  int    nmax  = 0;
+  double alph  = 0;
+  double s     = 0;
+  double tmax  = 0;
+
+  const char *path = "diff.dat";
+  FILE       *dat  = fopen (path, "r");
+  if (!dat)
+    {
+      fprintf (stderr, "Unable to open file: %s\n", path);
+      return EXIT_FAILURE;
+    }
+  fscanf (
+      dat, "%5d%5d%5d%10le%5lf%5lf\n", &jmax, &maxex, &nmax, &alph, &s, &tmax);
+  fclose (dat);
+  diff (stdout, jmax, maxex, nmax, alph, s, tmax);
   return EXIT_SUCCESS;
 }
