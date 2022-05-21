@@ -159,16 +159,46 @@ main (void)
   double s     = 0;
   double tmax  = 0;
 
+  int status = EXIT_SUCCESS;
+
   const char *path = "diff.dat";
-  FILE       *dat  = fopen (path, "r");
-  if (!dat)
+  FILE       *dat;
+  if ((dat = fopen (path, "r")) == NULL)
     {
       fprintf (stderr, "Unable to open file: %s\n", path);
       return EXIT_FAILURE;
     }
-  fscanf (
-      dat, "%5d%5d%5d%10le%5lf%5lf\n", &jmax, &maxex, &nmax, &alph, &s, &tmax);
-  fclose (dat);
-  diff (stdout, jmax, maxex, nmax, alph, s, tmax);
-  return EXIT_SUCCESS;
+
+  do
+    {
+      int n = fscanf (dat,
+                      "%5d%5d%5d%10le%5lf%5lf\n",
+                      &jmax,
+                      &maxex,
+                      &nmax,
+                      &alph,
+                      &s,
+                      &tmax);
+      if (n == 6)
+        diff (stdout, jmax, maxex, nmax, alph, s, tmax);
+      else if (n != EOF)
+        {
+          fputs ("Failed to match input\n", stderr);
+          status = EXIT_FAILURE;
+          break;
+        }
+      else
+        {
+          break;
+        }
+    }
+  while (1);
+
+  if (fclose (dat) == EOF)
+    {
+      fputs ("Failed to close file\n", stderr);
+      status = EXIT_FAILURE;
+    }
+
+  return status;
 }
