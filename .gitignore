@@ -56,3 +56,7 @@ build*
 
 # visual studio code
 .vscode/
+
+# python
+env/
+.ipynb_checkpoints
