@@ -24,7 +24,7 @@
  * @param nmax the maximum number of time steps
  * @param alph the thermal diffusivity
  * @param s alph*delt/delx/delx
- * @param tmax the minimum time
+ * @param tmax the maximum time
  * @return int
  */
 int
@@ -63,7 +63,7 @@ diff (FILE  *file,
            alph,
            delt,
            delx);
-  fprintf (file, " FTCS(EXPLICIT) SCHEME S = %5.3f\n\n", s);
+  fprintf (file, " SCHEME 3.7 S = %5.3f\n\n", s);
 
   // set initial conditions
   for (size_t j = 0; j < jmap; j++)
@@ -171,7 +171,7 @@ main (void)
   int    nmax  = 500;
   double alph  = 1.0e-5;
   double s     = 0.3;
-  double tmax  = 2999;
+  double tmax  = 4999;
 
   size_t n_dx = 3;
   double dx[] = { 0.2, 0.1, 0.05 };
