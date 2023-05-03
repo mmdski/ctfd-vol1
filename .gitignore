@@ -61,3 +61,6 @@ build*
 # python
 env/
 .ipynb_checkpoints
+
+# vim
+*~
